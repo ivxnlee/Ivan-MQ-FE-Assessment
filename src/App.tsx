@@ -7,10 +7,15 @@ import { getSearchHistory } from "./services/searchHistory";
 
 type ThemeMode = "light" | "dark";
 
+const DEFAULT_CITY = "Singapore";
+
 function App() {
   const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-  const [cityName, setCityName] = useState<string>("Singapore");
+  const [cityName, setCityName] = useState<string>(
+    () => getSearchHistory()[0]?.city || DEFAULT_CITY,
+  );
+
   const [theme, setTheme] = useState<ThemeMode>(() => {
     const savedTheme = localStorage.getItem("weather-theme");
     if (savedTheme === "light" || savedTheme === "dark") {
@@ -22,13 +27,15 @@ function App() {
       ? "dark"
       : "light";
   });
-  const { weatherData, loading, error, search } = useWeather(apiKey);
+  const { weatherData, loading, error, search, history, removeHistoryEntry } =
+    useWeather(apiKey);
 
   useEffect(() => {
-    // Perform an initial search for the most recent city when the component mounts
-    const mostRecentCity = getSearchHistory()[0]?.city || "Singapore";
-    search(mostRecentCity, setCityName);
-  }, []);
+    // Restore the most recent city when the component mounts. This is not a
+    // user-initiated search, so it must not add an entry to the history.
+    const mostRecentCity = getSearchHistory()[0]?.city || DEFAULT_CITY;
+    search(mostRecentCity, { recordHistory: false });
+  }, [search]);
 
   useEffect(() => {
     localStorage.setItem("weather-theme", theme);
@@ -40,7 +47,8 @@ function App() {
   const isDarkMode = theme === "dark";
 
   const handleSearch = async (city: string) => {
-    await search(city, setCityName);
+    setCityName(city);
+    await search(city);
   };
 
   return (
@@ -68,7 +76,9 @@ function App() {
         <WeatherCard
           weatherData={weatherData}
           error={error}
+          history={history}
           onSearch={handleSearch}
+          onDeleteHistoryEntry={removeHistoryEntry}
         />
       </div>
     </div>

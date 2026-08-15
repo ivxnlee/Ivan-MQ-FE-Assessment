@@ -1,12 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import styles from "./css/WeatherCard.module.css";
 import { format } from "date-fns";
 import type { SearchHistoryEntry } from "../interfaces/SearchHistoryEntry";
-import {
-  addSearchHistoryEntry,
-  getSearchHistory,
-  removeSearchHistoryEntry,
-} from "../services/searchHistory";
 import SearchHistory from "./SearchHistory";
 import cloudIcon from "../assets/cloud.png";
 import sunIcon from "../assets/sun.png";
@@ -15,29 +9,18 @@ import type { WeatherData } from "../services/weather";
 type WeatherCardProps = {
   weatherData: WeatherData | null;
   error: string | null;
+  history: SearchHistoryEntry[];
   onSearch: (city: string) => void;
+  onDeleteHistoryEntry: (id: string) => void;
 };
 
-function WeatherCard({ weatherData, error, onSearch }: WeatherCardProps) {
-  const [history, setHistory] = useState<SearchHistoryEntry[]>(() =>
-    getSearchHistory(),
-  );
-  // Holds the response already written to history, so a re-render (or
-  // StrictMode's double-invoked effect) never records the same search twice.
-  const recordedResponse = useRef<WeatherData | null>(null);
-
-  useEffect(() => {
-    if (!weatherData || recordedResponse.current === weatherData) return;
-
-    recordedResponse.current = weatherData;
-    setHistory(
-      addSearchHistoryEntry({
-        city: weatherData.name,
-        country: weatherData.sys.country,
-      }),
-    );
-  }, [weatherData]);
-
+function WeatherCard({
+  weatherData,
+  error,
+  history,
+  onSearch,
+  onDeleteHistoryEntry,
+}: WeatherCardProps) {
   const weatherIcon = weatherData?.weather[0]?.icon;
   const formattedDate = weatherData
     ? format(new Date(weatherData.dt * 1000), "dd-MM-yyyy hh:mmaaa")
@@ -116,7 +99,7 @@ function WeatherCard({ weatherData, error, onSearch }: WeatherCardProps) {
       <SearchHistory
         history={history}
         onSearch={(entry) => onSearch(entry.city)}
-        onDelete={(id) => setHistory(removeSearchHistoryEntry(id))}
+        onDelete={onDeleteHistoryEntry}
       />
     </div>
   );

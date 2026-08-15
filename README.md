@@ -4,6 +4,8 @@ A weather search app built with React, TypeScript and Vite. Search any city or
 country, see the current conditions, and revisit past searches from a persisted
 history panel. Supports light and dark themes.
 
+Live demo on [Vercel](https://ivan-mq-fe-assessment.vercel.app/).
+
 Data comes from the [OpenWeatherMap API](https://openweathermap.org/api).
 
 ## Getting started
