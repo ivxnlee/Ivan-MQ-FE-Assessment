@@ -1,0 +1,194 @@
+:root {
+  --history-bg: rgba(255, 255, 255, 0.2);
+  --history-item-bg: rgba(255, 255, 255, 0.4);
+  --history-border: rgba(255, 255, 255, 0.5);
+  --history-title: rgba(0, 0, 0, 1);
+  --history-city: rgba(0, 0, 0, 1);
+  --history-meta: rgba(0, 0, 0, 1);
+  --history-action-bg: rgba(255, 255, 255, 1);
+  --history-action-border: transparent;
+  --history-search-invert: 1;
+  --history-trash-invert: 0;
+  --history-scroll-thumb: rgba(255, 255, 255, 0.55);
+}
+
+[data-theme="dark"] {
+  --history-bg: rgba(26, 26, 26, 0.3);
+  --history-item-bg: rgba(26, 26, 26, 0.5);
+  --history-border: transparent;
+  --history-title: rgba(255, 255, 255, 1);
+  --history-city: rgba(255, 255, 255, 1);
+  --history-meta: rgba(255, 255, 255, 0.5);
+  --history-action-bg: transparent;
+  --history-action-border: rgba(255, 255, 255, 0.4);
+  --history-search-invert: 0;
+  --history-trash-invert: 1;
+  --history-scroll-thumb: rgba(255, 255, 255, 0.25);
+}
+
+.search-history {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  margin-top: 24px;
+  padding: 20px 20px 0;
+  border-radius: 32px 32px 0 0;
+  background: var(--history-bg);
+  border: 1px solid var(--history-border);
+  border-bottom: none;
+}
+
+.history-title {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--history-title);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0 4px 0 0;
+  list-style: none;
+  overflow-y: auto;
+  /* Reserve the scrollbar gutter at all times so rows keep the same width
+     whether or not the list is long enough to scroll. */
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--history-scroll-thumb) transparent;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--history-scroll-thumb);
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--history-item-bg);
+  border: 1px solid var(--history-border);
+}
+
+/* Groups the city and timestamp so the action buttons stay a single column on
+   the right: side by side on desktop, stacked under each other on mobile. */
+.history-entry {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-city {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: var(--history-city);
+}
+
+.history-timestamp {
+  font-size: 0.8rem;
+  white-space: nowrap;
+  color: var(--history-meta);
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.history-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--history-action-border);
+  background: var(--history-action-bg);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.history-action img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  opacity: 0.5; /* per Figma */
+}
+
+/* search.png ships white and trash.png ships black, so each one is inverted
+   in the theme where it would otherwise disappear into the button. */
+.history-icon-search {
+  filter: invert(var(--history-search-invert));
+}
+
+.history-icon-trash {
+  filter: invert(var(--history-trash-invert));
+}
+
+.history-action:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
+.history-action:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.35);
+}
+
+.history-empty {
+  margin: 0;
+  padding: 14px 4px;
+  font-size: 0.9rem;
+  color: var(--history-meta);
+}
+
+@media (max-width: 600px) {
+  .search-history {
+    padding: 18px 14px 0;
+    border-radius: 20px 20px 0 0;
+  }
+
+  /* The stacked city/timestamp column is taller than a single line, so the row
+     grows from the fixed desktop height instead of clipping. */
+  .history-item {
+    height: auto;
+    min-height: 60px;
+    padding: 12px 14px;
+    border-radius: 12px;
+  }
+
+  .history-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .history-city {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+}

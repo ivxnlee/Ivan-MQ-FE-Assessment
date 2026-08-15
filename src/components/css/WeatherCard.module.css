@@ -1,0 +1,166 @@
+:root {
+  --card-bg: rgba(255, 255, 255, 0.2);
+  --card-border: rgba(255, 255, 255, 0.5);
+  --card-accent: rgba(108, 64, 181, 1);
+  --card-label: rgba(0, 0, 0, 1);
+  --card-temp-range: rgba(0, 0, 0, 1);
+  --card-meta: rgba(102, 102, 102, 1);
+  --card-location: rgba(102, 102, 102, 1);
+  --card-error-bg: rgba(254, 226, 226, 0.85);
+  --card-error-border: rgba(220, 38, 38, 0.6);
+  --card-error-text: rgba(153, 27, 27, 1);
+}
+
+[data-theme="dark"] {
+  --card-bg: rgba(26, 26, 26, 0.3);
+  --card-border: transparent;
+  --card-accent: #ffffff;
+  --card-label: rgba(255, 255, 255, 1);
+  --card-temp-range: rgba(255, 255, 255, 1);
+  --card-meta: rgba(255, 255, 255, 1);
+  --card-location: rgba(255, 255, 255, 1);
+  --card-error-bg: rgba(127, 29, 29, 0.45);
+  --card-error-border: rgba(248, 113, 113, 0.7);
+  --card-error-text: rgba(254, 226, 226, 1);
+}
+
+.weather-card {
+  /* The icon is pulled above the card, so the card reserves that space as margin */
+  --icon-size: 300px;
+  --icon-overhang: calc(var(--icon-size) * 0.2);
+  /* Drives both the temperature type size and the reserved slot height, so the
+     two stay in step as the viewport scales. */
+  --temp-size: clamp(4rem, 8vw, 7rem);
+  /* Label + temp range + location stacked around the temperature */
+  --weather-slot-height: calc(var(--temp-size) + 84px);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* lets the nested history panel scroll instead of overflowing */
+  width: min(100%, 700px);
+  margin-top: var(--icon-overhang);
+  /* Runs off the bottom of the viewport, so only the top corners are rounded
+     and the bottom edge carries no padding or border. */
+  padding: 32px 32px 0;
+  border-radius: 32px 32px 0 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-bottom: none;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(20px);
+}
+
+/* Fixed slot shared by the populated, empty and error states, so the history
+   panel below sits at the same height regardless of which one is showing. */
+.weather-card-inner {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: var(--weather-slot-height);
+}
+
+.weather-error {
+  margin: 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--card-error-bg);
+  border: 1px solid var(--card-error-border);
+  color: var(--card-error-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.weather-placeholder {
+  margin: 0;
+  font-size: 0.95rem;
+  text-align: center;
+  color: var(--card-meta);
+}
+
+.weather-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--card-label);
+}
+
+.weather-info {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.weather-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Anchored to the card and lifted so the top of the icon breaks out of it */
+.weather-icon {
+  position: absolute;
+  top: calc(var(--icon-overhang) * -1.6);
+  right: clamp(16px, 5vw, 20px);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 20px rgba(15, 23, 42, 0.15));
+}
+
+.temperature {
+  font-size: var(--temp-size);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--card-accent);
+}
+
+.temp-range {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--card-temp-range);
+}
+
+.weather-meta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 6px;
+  font-size: 0.9rem;
+  color: var(--card-meta);
+}
+
+.location {
+  font-weight: 700;
+  text-wrap: nowrap;
+  color: var(--card-location);
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .weather-card {
+    --icon-size: 157px;
+
+    padding: 22px 16px 0;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .weather-icon {
+    right: 8px;
+  }
+
+  .weather-meta {
+    flex-direction: column-reverse;
+    column-gap: 12px;
+    align-items: flex-end;
+  }
+}
