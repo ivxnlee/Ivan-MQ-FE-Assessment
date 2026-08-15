@@ -166,6 +166,26 @@
   color: var(--history-meta);
 }
 
+@media (max-height: 800px) and (min-width: 601px) {
+  .search-history {
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .history-title {
+    margin-bottom: 10px;
+  }
+
+  .history-list {
+    gap: 10px;
+  }
+
+  .history-item {
+    height: 52px;
+    padding: 10px 16px;
+  }
+}
+
 @media (max-width: 600px) {
   .search-history {
     padding: 18px 14px 0;

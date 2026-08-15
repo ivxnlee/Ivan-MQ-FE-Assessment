@@ -44,7 +44,7 @@ function SearchArea({
       <button
         type="button"
         onClick={() => onSearch(cityName)}
-        disabled={loading}
+        disabled={loading || !cityName.trim()}
         aria-label={loading ? "Searching" : "Search"}
         aria-busy={loading}
       >

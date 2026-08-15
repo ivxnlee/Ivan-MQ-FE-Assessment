@@ -162,17 +162,46 @@
 .controls button:hover {
   background: var(--search-bg-hover);
 }
-.controls .field:focus-within,
-.controls button:focus {
+.controls .field:focus-within {
   outline: none;
   background: var(--control-bg-focus);
   border-color: rgba(148, 163, 184, 0.9);
   box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.25);
 }
 
+.controls button:focus {
+  outline: none;
+  background: var(--search-bg-hover);
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.25);
+}
+
 .controls button:disabled {
   opacity: 0.7;
-  cursor: wait;
+  cursor: not-allowed;
+}
+
+/* Short viewports (laptops, or any window with limited height). */
+@media (max-height: 800px) and (min-width: 601px) {
+  .app-shell {
+    padding-top: 16px;
+  }
+
+  .controls {
+    margin-bottom: 12px;
+    max-height: 48px;
+  }
+
+  .controls .field,
+  .controls button {
+    height: 48px;
+  }
+
+  .theme-toggle {
+    bottom: 12px;
+    left: 12px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 600px) {

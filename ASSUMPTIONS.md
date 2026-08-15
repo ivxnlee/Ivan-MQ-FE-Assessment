@@ -4,7 +4,7 @@
 2.  Temperatures are in Celsius - A toggle was not specified in the assessment. If implemented in the future, I would use a dropdown menu or settings page for toggling between temperature units.
 3.  `/forecast` call failing results in rendering the high and low temperature value as “--”.
 4.  Timestamp uses the user's local timezone.
-5.  Only two weather icons are used - The provided assets are a sun and a cloud, which cannot represent OpenWeatherMap's full condition set. The icon is selected by the day/night suffix on the API's icon code — sun for day, cloud for night — rather than by condition. A fuller icon set would allow mapping by condition instead.
+5.  Only two weather icons - the provided icons differ mainly by the presence of a sun, so they can't cover OpenWeatherMap's full condition set. The icon is therefore chosen by the day/night suffix in the API's icon code (sun for day, cloud for night) rather than by condition. A fuller icon set would allow mapping by condition instead.
 
 **Search**
 

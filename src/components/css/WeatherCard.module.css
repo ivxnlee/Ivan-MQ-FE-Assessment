@@ -146,6 +146,24 @@
   opacity: 1;
 }
 
+@media (max-height: 800px) and (min-width: 601px) {
+  .weather-card {
+    --icon-size: 200px;
+    --temp-size: clamp(3rem, 5.5vw, 4.5rem);
+    --weather-slot-height: calc(var(--temp-size) + 64px);
+
+    padding-top: 20px;
+  }
+
+  .weather-label {
+    margin-bottom: 4px;
+  }
+
+  .temp-range {
+    margin-top: 6px;
+  }
+}
+
 @media (max-width: 600px) {
   .weather-card {
     --icon-size: 157px;

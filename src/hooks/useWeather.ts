@@ -34,6 +34,9 @@ export const useWeather = (apiKey: string) => {
       setError(null);
 
       try {
+        if (!city.trim()) {
+          return; // Exit early if the city name is empty
+        }
         const data = await fetchWeatherData(city, apiKey);
         if (id !== requestId.current) return; // If a newer request has been made, ignore this result
 
